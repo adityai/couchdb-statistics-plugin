@@ -16,6 +16,7 @@ public class StatsRecord {
 	private long timeInMillis;
 	private String timeString;
 	private String timeStamp;
+	private String url;
 
 	public String getTimeStamp() {
 		return timeStamp;
@@ -79,6 +80,14 @@ public class StatsRecord {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
