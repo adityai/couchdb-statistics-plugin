@@ -1,1 +1,36 @@
 language: java
+jdk:
+- oraclejdk8
+
+install: true
+
+cache:
+  directories:
+    - $HOME/.m2
+
+before_install:
+# stop unused services and check memory
+ - "sudo free -m -t"
+ - "sudo chown -R $USER:$GROUP $HOME"
+
+script: mvn clean install -q
+
+notifications:
+  email:
+    recipients:
+      - adityaii@gmail.com
+    on_success: always #[always|never|change] # default: change
+    on_failure: always # [always|never|change] # default: always
+
+after_failure:
+# check memory and show kernel messages
+ - "sudo free -m -t"
+ - "sudo dmesg"
+
+after_success:
+  - codecov
+branches:
+  only:
+  - master
+  - gerrit-integration
+
