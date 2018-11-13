@@ -1,7 +1,11 @@
 package org.jenkinsci.plugins.couchstats;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import hudson.model.Action;
 
 @JsonIgnoreProperties({ "_id", "_rev" })
 public class StatsRecord {
@@ -17,6 +21,16 @@ public class StatsRecord {
 	private String timeString;
 	private String timeStamp;
 	private String url;
+	private List<String> artifacts;
+	private List<Action> actions;
+	
+	public List<String> getArtifacts() {
+		return artifacts;
+	}
+
+	public void setArtifacts(List<String> artifacts) {
+		this.artifacts = artifacts;
+	}
 
 	public String getTimeStamp() {
 		return timeStamp;
@@ -88,6 +102,14 @@ public class StatsRecord {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
+	}
+	
+	public List<Action> getActions() {
+		return this.actions;
 	}
 
 }

@@ -1,11 +1,7 @@
 package org.jenkinsci.plugins.couchstats;
 
-import hudson.Extension;
-import hudson.model.TaskListener;
-import hudson.model.Run;
-import hudson.model.listeners.RunListener;
-
 import java.net.MalformedURLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +11,12 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbConnector;
 import org.ektorp.impl.StdCouchDbInstance;
+
+import hudson.Extension;
+import hudson.model.Action;
+import hudson.model.Run;
+import hudson.model.TaskListener;
+import hudson.model.listeners.RunListener;
 
 /**
  * Send jenkins result and duration of Jenkins jobs to a couchdb/cloudant server
@@ -40,6 +42,8 @@ public class CouchStatsListener extends RunListener<Run> {
 		String timeString = r.getTimestampString();
 		String timeStamp = TimeUtils.timeStamp(timeInMillis);
 		String url = r.getUrl();
+		List<String> artifacts = r.getArtifacts();
+		List<Action> actions = r.getActions();
 
 		LOGGER.log(Level.INFO, "CouchStatsListener: config: " + config);
 		LOGGER.log(Level.INFO, "CouchStatsListener: job: " + jobName + ", result: " + result + ", duration: "
@@ -61,6 +65,8 @@ public class CouchStatsListener extends RunListener<Run> {
 			record.setTimeString(timeString);
 			record.setTimeStamp(timeStamp);
 			record.setUrl(url);
+			record.setArtifacts(artifacts);
+			record.setActions(actions);
 
 			LOGGER.log(Level.FINE, "Saving build record...");
 			StatsRecordRepository repository = new StatsRecordRepository(connector);
