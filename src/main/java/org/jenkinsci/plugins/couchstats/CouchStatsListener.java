@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.couchstats;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,10 +13,13 @@ import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbConnector;
 import org.ektorp.impl.StdCouchDbInstance;
 
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.model.Action;
+import hudson.model.BallColor;
 import hudson.model.Run;
 import hudson.model.TaskListener;
+import hudson.model.Run.Summary;
 import hudson.model.listeners.RunListener;
 
 /**
@@ -44,6 +48,9 @@ public class CouchStatsListener extends RunListener<Run> {
 		String url = r.getUrl();
 		List<String> artifacts = r.getArtifacts();
 		List<Action> actions = r.getActions();
+		Summary buildStatusSummary = r.getBuildStatusSummary();
+		EnvVars envVars = r.getCharacteristicEnvVars();
+		BallColor ballColor = r.getIconColor();
 
 		LOGGER.log(Level.INFO, "CouchStatsListener: config: " + config);
 		LOGGER.log(Level.INFO, "CouchStatsListener: job: " + jobName + ", result: " + result + ", duration: "
@@ -67,6 +74,9 @@ public class CouchStatsListener extends RunListener<Run> {
 			record.setUrl(url);
 			record.setArtifacts(artifacts);
 			record.setActions(actions);
+			record.setBuildStatusSummary(buildStatusSummary);
+			record.setCharacteristicEnvVars(envVars);
+			record.setBallColor(ballColor);
 
 			LOGGER.log(Level.FINE, "Saving build record...");
 			StatsRecordRepository repository = new StatsRecordRepository(connector);

@@ -5,7 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import hudson.EnvVars;
 import hudson.model.Action;
+import hudson.model.BallColor;
+import hudson.model.Run.Summary;
 
 @JsonIgnoreProperties({ "_id", "_rev" })
 public class StatsRecord {
@@ -23,6 +26,9 @@ public class StatsRecord {
 	private String url;
 	private List<String> artifacts;
 	private List<Action> actions;
+	private Summary buildStatusSummary;
+	private EnvVars envVars;
+	private BallColor ballColor;
 	
 	public List<String> getArtifacts() {
 		return artifacts;
@@ -110,6 +116,30 @@ public class StatsRecord {
 	
 	public List<Action> getActions() {
 		return this.actions;
+	}
+
+	public void setBuildStatusSummary(Summary buildStatusSummary) {
+		this.buildStatusSummary = buildStatusSummary;
+	}
+	
+	public Summary getBuildStatusSummary() {
+		return this.buildStatusSummary;
+	}
+
+	public void setCharacteristicEnvVars(EnvVars envVars) {
+		this.envVars = envVars;
+	}
+	
+	public EnvVars getCharacteristicEnvVars() {
+		return this.envVars;
+	}
+
+	public void setBallColor(BallColor ballColor) {
+		this.ballColor = ballColor;
+	}
+	
+	public BallColor getBallColor() {
+		return ballColor;
 	}
 
 }
